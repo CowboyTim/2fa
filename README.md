@@ -12,6 +12,13 @@ The files needed for gpg are saved in a separate directory compared to the
 normal $HOME/.gpg directory to not interfere with the user's already configured
 gpg setup.
 
+When a request is made to make a totp code with "generate", a connection is
+made to the gpg-agent running for the T_2FA_DIR. If this agens is not running,
+a new gpg agent is started. This gpg agent is used to decrypt the totp secret
+and will ask for a passphrase. The agent is kept running so subsequent totp
+code generate requests don't need a passphrase entry each time, the cache TTL
+is set to 3600.
+
 ## ARGUMENTS
 
 * add \<account\> \<secret\>
@@ -51,11 +58,22 @@ This is not yet implemented
 
 * T\_2FA\_DIR
 
+This is the base directory. This is the directory where all of the secrets are
+stored. This is default ~/.2fa
+
 * T\_2FA\_GPG\_UID
+
+This is the gpg uid to use. This is e.g. your email address.
 
 * T\_2FA\_GPG\_KEY\_ID
 
+This is the gpg key id to use, if this is not specified, the T\_2FA\_GPG\_UID
+is used instead.
+
 * T\_2FA\_TOTP\_INTERVAL
+
+This is the TOTP interval, this is default 30 seconds and is probably better
+not touched.
 
 ## INSTALLATION
 
