@@ -17,7 +17,7 @@ gpg setup.
 * add <account> <secret>
     This adds a totp account with the secret
 
-* generate [<account>]
+* generate \[<account>\]
     This generates the totp code for an account (or all if the account is omitted)
 
 * list
@@ -26,10 +26,10 @@ gpg setup.
 * rename <old account> <new account>
     This renames a totp account
 
-* asciisecret [<account>]
+* asciisecret \[<account>\]
     This prints the account's secret as ascii on command line
 
-* qrsecret [<account>]
+* qrsecret \[<account>\]
     This prints the account's secret as a qr code in ascii in the terminal for
     import in a thirdparty authenticator app
 
