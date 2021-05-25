@@ -65,4 +65,4 @@ feature isn't needed.
 
 To install those on e.g. a debian or linux mint:
 
-    apt install gpg oathtool qrencode
+    apt-get install gpg oathtool qrencode
