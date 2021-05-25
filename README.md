@@ -1,4 +1,4 @@
-# DESCRIPTION
+## DESCRIPTION
 
 This is a bash script and wrapper for TOTP codes, using oathtool where the
 shared secret is encrypted using gpg. 
@@ -12,42 +12,57 @@ The files needed for gpg are saved in a separate directory compared to the
 normal $HOME/.gpg directory to not interfere with the user's already configured
 gpg setup.
 
-# ARGUMENTS
+## ARGUMENTS
 
-* add <account> <secret>
-    This adds a totp account with the secret
+* add `<account>` `<secret>`
 
-* generate \[<account>\]
-    This generates the totp code for an account (or all if the account is omitted)
+This adds a totp account with the secret
+
+* generate `[<account>]`
+
+This generates the totp code for an account (or all if the account is omitted)
 
 * list
-    This lists the totp accounts
 
-* rename <old account> <new account>
-    This renames a totp account
+This lists the totp accounts
 
-* asciisecret \[<account>\]
-    This prints the account's secret as ascii on command line
+* rename `<old account>` `<new account>`
 
-* qrsecret \[<account>\]
-    This prints the account's secret as a qr code in ascii in the terminal for
-    import in a thirdparty authenticator app
+This renames a totp account
 
-* remove <account>
-    This removes an totp account
+* asciisecret `[<account>]`
+
+This prints the account's secret as ascii on command line
+
+* qrsecret `[<account>]`
+
+This prints the account's secret as a qr code in ascii in the terminal for
+import in a thirdparty authenticator app
+
+* remove `<account>`
+
+This removes an totp account
 
 * setup
-    This is not yet implemented
 
-# ENVIRONMENT
+This is not yet implemented
 
-* T_2FA_DIR
-* T_2FA_GPG_UID
-* T_2FA_GPG_KEY_ID
-* T_2FA_TOTP_INTERVAL
+## ENVIRONMENT
 
-# INSTALLATION
+* T\_2FA\_DIR
 
-The script needs bash, gpg, oathtool, qrencode and coreutils. Note that the
-qrencode dependency is optional when the export feature isn't needed
+* T\_2FA\_GPG\_UID
 
+* T\_2FA\_GPG\_KEY\_ID
+
+* T\_2FA\_TOTP\_INTERVAL
+
+## INSTALLATION
+
+The script needs gpg, oathtool and qrencode (omitting the obvious bash and
+coreutils). Note that the qrencode dependency is optional when the export
+feature isn't needed.
+
+To install those on e.g. a debian or linux mint:
+
+    apt install gpg oathtool qrencode
