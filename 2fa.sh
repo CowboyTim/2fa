@@ -25,7 +25,7 @@
 #
 
 function print_usage(){
-    echo "usage: 2fa.sh <list|generate|add|remove|rename|qrsecret|setup> <account> [secret|account]"
+    echo "usage: 2fa.sh <list|generate|add|remove|rename|qrsecret|asciisecret|setup> <account> [secret|account]"
 }
 
 T_2FA_DIR=${T_2FA_DIR:-~/.2fa}
