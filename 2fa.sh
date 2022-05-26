@@ -21,6 +21,7 @@
 #   T_2FA_DIR
 #   T_2FA_GPG_UID
 #   T_2FA_GPG_KEY_ID
+#   T_2FA_GPG_OPTS
 #   T_2FA_TOTP_INTERVAL
 #
 
@@ -42,6 +43,8 @@ if [ -z "$gpg_uid" ]; then
     exit 6
 fi
 
+T_2FA_GPG_OPTS=${T_2FA_GPG_OPTS:-"--grab"}
+
 umask 0077
 chmod 0700 $b_dir $b_dir/*
 chmod 0600 $b_dir/*/*
@@ -50,7 +53,7 @@ export GNUPGHOME="$b_dir/.gnupg"
 r=$(gpg-connect-agent --homedir "$GNUPGHOME" --no-autostart /bye)
 err=$?
 if [ "$err" != 0 ]; then
-    r=$(gpg-agent --grab --sh --homedir "$GNUPGHOME" --daemon --default-cache-ttl 3600)
+    r=$(gpg-agent --sh --homedir "$GNUPGHOME" --daemon --default-cache-ttl 3600 $T_2FA_GPG_OPTS)
     err=$?
     if [ "$err" != 0 ]; then
         exit $err
