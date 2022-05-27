@@ -49,6 +49,7 @@ umask 0077
 chmod 0700 $b_dir $b_dir/*
 chmod 0600 $b_dir/*/*
 chmod -R go-rwx "$b_dir/.gnupg"
+export GPG_TTY=$(tty)
 export GNUPGHOME="$b_dir/.gnupg"
 r=$(gpg-connect-agent --homedir "$GNUPGHOME" --no-autostart /bye)
 err=$?
