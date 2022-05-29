@@ -26,7 +26,7 @@
 #
 
 function print_usage(){
-    echo "usage: 2fa.sh <list|generate|add|remove|rename|qrsecret|asciisecret|setup> <account> [secret|account]"
+    echo "usage: 2fa.sh <list|generate|add|remove|rename|qrsecret|asciisecret|reencrypt|setup> <account> [secret|account|newsecret]"
 }
 
 T_2FA_DIR=${T_2FA_DIR:-~/.2fa}
@@ -70,6 +70,9 @@ function generate_token(){
         return 5
     fi
     enc_file="$b_dir/$account/totp.key.gpg"
+    if [ -e "${enc_file}.$gpg_kid" ]; then
+        enc_file="${enc_file}.$gpg_kid"
+    fi
     if [ ! -e "$enc_file" ]; then
         echo "no such account"
         return 3
@@ -196,6 +199,28 @@ function ascii_secret(){
     return $?
 }
 
+function reencrypt(){
+    account="$1"
+    new_gpg_key_id="$2"
+    if [ -z "$account" ]; then
+        print_usage
+        return 5
+    fi
+    enc_file="$b_dir/$account/totp.key.gpg"
+    if [ ! -e "$enc_file" ]; then
+        echo "no such account"
+        return 3
+    fi
+    if [ -z "$new_gpg_key_id" ]; then
+        print_usage
+        return 5
+    fi
+    key_file="$b_dir/$account/totp.key"
+    gpg -q -u $gpg_kid -r "$gpg_uid" --decrypt $enc_file 2>/dev/null|gpg -q -u $new_gpg_key_id -r "$gpg_uid" --encrypt > "$key_file.gpg.$new_gpg_key_id.tmp.$$"
+    mv -f "$key_file.gpg.$new_gpg_key_id.tmp.$$" "$key_file.gpg.$new_gpg_key_id"
+    return 1
+}
+
 function setup_gpg(){
     echo "not yet implemented"
     return 1
@@ -256,6 +281,17 @@ case "$what" in
         ;;
     list)
         list_tokens
+        ;;
+    reencrypt)
+        if [ "$1" = '' ]; then
+            IFS=""
+            for a in $(list_tokens ""); do
+                echo "$a"
+                reencrypt "$a" "$2"
+            done
+        else
+            reencrypt "$1" "$2"
+        fi
         ;;
     setup)
         setup_gpg
