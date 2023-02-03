@@ -58,10 +58,10 @@ chmod 0600 $b_dir/*/*
 chmod -R go-rwx "$b_dir/.gnupg"
 export GPG_TTY=$(tty)
 export GNUPGHOME="$b_dir/.gnupg"
-r=$(gpg-connect-agent --homedir "$GNUPGHOME" --no-autostart /bye)
-err=$?
-if [ "$err" != 0 ]; then
-    r=$(gpg-agent --sh --homedir "$GNUPGHOME" --daemon --default-cache-ttl 3600 $T_2FA_GPG_OPTS)
+r=$(gpg-connect-agent --homedir "$GNUPGHOME" --no-autostart /bye 2>&1|grep 'no gpg-agent running' >/dev/null)
+greperr=$?
+if [ "$greperr" = 0 ]; then
+    r=$(gpg-agent --sh --homedir "$GNUPGHOME" --daemon --default-cache-ttl 3600 --pinentry-program /usr/bin/pinentry $T_2FA_GPG_OPTS)
     err=$?
     if [ "$err" != 0 ]; then
         exit $err
