@@ -16,14 +16,21 @@
 #
 
 # dependencies: bash, gpg-agent, gpg, gpgconf, oathtool, coreutils, qrencode
+# install on debian/ubuntu as follows:
+#   sudo apt install bash gpg-agent gpg gpgconf oathtool coreutils qrencode
+#
 # environment variables:
 #
-#   T_2FA_DIR
+#   T_2FA_DIR             default: ~/.2fa
+#   T_2FA_TOTP_INTERVAL   default: 30s
+#   T_2FA_GPG_OPTS        default: --grab
 #   T_2FA_GPG_UID
-#   T_2FA_GPG_KEY_ID
-#   T_2FA_GPG_OPTS
-#   T_2FA_TOTP_INTERVAL
+#   T_2FA_GPG_KEY_ID      these are both the same, use T_2FA_GPG_KEY_ID
 #
+# E.g.:
+#   export T_2FA_GPG_KEY_ID=youremail@example.com
+#
+# The rest has sane defaults.
 
 function print_usage(){
     echo "usage: 2fa.sh <list|generate|add|remove|rename|qrsecret|asciisecret|reencrypt|setup> <account> [secret|account|newsecret]"
