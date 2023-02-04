@@ -81,10 +81,10 @@ function generate_token(){
         enc_file="${enc_file}.$gpg_kid"
     fi
     if [ ! -e "$enc_file" ]; then
-        echo "no such account"
+        echo "no such account '$account'"
         return 3
     fi
-    secret_key_totp=$(gpg -q -u $gpg_kid -r "$gpg_uid" --decrypt $enc_file 2>/dev/null)
+    secret_key_totp=$(gpg -q -u $gpg_kid -r "$gpg_uid" --decrypt "$enc_file" 2>/dev/null)
     if [ $? != 0 ]; then
         echo "problem decrypting"
         return 8
